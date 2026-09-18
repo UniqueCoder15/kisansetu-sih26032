@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "seed": "tsx src/seed.ts",
-    "build": "tsc",
+    "prebuild": "npm install",
+    "build": "npm install && tsc",
     "start": "node dist/server.js",
     "lint": "tsc --noEmit"
   },
