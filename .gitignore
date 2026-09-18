@@ -45,6 +45,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+.agent/
+.impeccable/
+scratch/
+
 
 
 # Vercel
