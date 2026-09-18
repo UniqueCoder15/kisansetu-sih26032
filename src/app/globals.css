@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+:root {
+  /* Restrained Indian Public Service Palette */
+  --brand-primary: #15803d;         /* Deep Forest Green (Success / Official Seal) */
+  --brand-primary-hover: #166534;
+  --brand-amber: #d97706;           /* Amber Gold (Waiting / Attention) */
+  --brand-blue: #1d4ed8;            /* Information / Active Processing */
+
+  /* Neutral Surface System */
+  --bg-app: #f8fafc;                /* Neutral Slate 50 Background */
+  --bg-card: #ffffff;               /* Clean Flat White Card */
+  --border-subtle: #e2e8f0;         /* Slate 200 Border */
+  --border-strong: #cbd5e1;         /* Slate 300 Border */
+  --text-main: #0f172a;             /* Slate 900 High-Contrast Heading */
+  --text-body: #334155;             /* Slate 700 Readable Body */
+  --text-muted: #64748b;            /* Slate 500 Secondary Metadata */
+
+  /* Semantic Status Tokens (Color + Icon + Text) */
+  --status-waiting-bg: #fffbeb;
+  --status-waiting-fg: #92400e;
+  --status-waiting-border: #fde68a;
+
+  --status-called-bg: #eff6ff;
+  --status-called-fg: #1e40af;
+  --status-called-border: #bfdbfe;
+
+  --status-arrived-bg: #f0fdf4;
+  --status-arrived-fg: #166534;
+  --status-arrived-border: #bbf7d0;
+
+  --status-weighing-bg: #faf5ff;
+  --status-weighing-fg: #6b21a8;
+  --status-weighing-border: #e9d5ff;
+
+  --status-quality-bg: #f0f9ff;
+  --status-quality-fg: #075985;
+  --status-quality-border: #bae6fd;
+
+  --status-procurement-bg: #f0fdf4;
+  --status-procurement-fg: #15803d;
+  --status-procurement-border: #86efac;
+
+  --status-payment-pending-bg: #fff7ed;
+  --status-payment-pending-fg: #9a3412;
+  --status-payment-pending-border: #fed7aa;
+
+  --status-completed-bg: #f0fdf4;
+  --status-completed-fg: #14532d;
+  --status-completed-border: #86efac;
+
+  --status-cancelled-bg: #fef2f2;
+  --status-cancelled-fg: #991b1b;
+  --status-cancelled-border: #fca5a5;
+
+  /* MOTION TOKENS SYSTEM */
+  --motion-fast: 150ms ease-out;
+  --motion-medium: 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-slow: 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body {
+  background-color: var(--bg-app);
+  color: var(--text-body);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Touch Ergonomics Utilities */
+.touch-target {
+  min-height: 48px;
+  min-width: 48px;
+}
+
+/* Restrained Public Service Flat Card */
+.public-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 0.875rem;
+  box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+  transition: border-color var(--motion-fast), box-shadow var(--motion-fast);
+}
+
+/* Purposeful Motion Animation Keyframes */
+@keyframes numberUpdate {
+  0% {
+    transform: translateY(-8px);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes statusChangedPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(30, 64, 175, 0.4);
+    background-color: #dbeafe;
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(30, 64, 175, 0);
+    background-color: #bfdbfe;
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(30, 64, 175, 0);
+  }
+}
+
+@keyframes checkmarkReveal {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-number-update {
+  animation: numberUpdate var(--motion-medium);
+}
+
+.animate-status-shift {
+  animation: statusChangedPulse var(--motion-slow);
+}
+
+.animate-checkmark {
+  animation: checkmarkReveal var(--motion-medium);
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background-color: #16a34a;
+  display: inline-block;
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Accessibility: Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .live-dot {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}
