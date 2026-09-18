@@ -5,7 +5,7 @@ export const validate = (schema: ZodSchema) => {
   return (req: Request, res: Response, next: NextFunction): void => {
     const result = schema.safeParse(req.body);
     if (!result.success) {
-      const messages = result.error.errors
+      const messages = result.error.issues
         .map((e) => `${e.path.join(".")}: ${e.message}`)
         .join("; ");
       res.status(400).json({
