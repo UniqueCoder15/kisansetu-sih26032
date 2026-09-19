@@ -1,13 +1,22 @@
 import { Server as HTTPServer } from "http";
 import { Server as SocketIOServer, Socket } from "socket.io";
-import { env } from "../config/env.js";
+import { getCorsOrigins } from "../config/cors.js";
 
 let io: SocketIOServer | null = null;
 
 export const initSocketServer = (httpServer: HTTPServer): SocketIOServer => {
   io = new SocketIOServer(httpServer, {
     cors: {
-      origin: env.CLIENT_URL || "http://localhost:3000",
+      origin: (requestOrigin, callback) => {
+        if (!requestOrigin) return callback(null, true);
+        const cleanOrigin = requestOrigin.trim().replace(/[\r\n\0]/g, "").replace(/\/+$/, "");
+        const allowed = getCorsOrigins();
+        const isAllowed = allowed.some((a) => a.replace(/\/+$/, "") === cleanOrigin);
+        if (isAllowed || cleanOrigin.endsWith(".onrender.com")) {
+          return callback(null, true);
+        }
+        return callback(null, true);
+      },
       methods: ["GET", "POST"],
       credentials: true,
     },

@@ -3,20 +3,21 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import { env } from "./config/env.js";
+import { corsOptions } from "./config/cors.js";
 import routes from "./routes/index.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { notFoundHandler } from "./middleware/notFoundHandler.js";
 
 const app: Application = express();
 
-// Security Headers Middleware
-app.use(helmet());
+// CORS Policy Middleware & Preflight Handling
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
-// CORS Policy Configuration
+// Security Headers Middleware
 app.use(
-  cors({
-    origin: env.CLIENT_URL,
-    credentials: true,
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
   })
 );
 
